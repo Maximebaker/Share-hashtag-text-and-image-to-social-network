@@ -21,7 +21,7 @@
 
             if (fileUrl) {
                 // Try sharing the file as soon as the page loads
-                (async () => {
+                 setTimeout(async () => {
                     try {
                         // Fetch the file (image or file)
                         const response = await fetch(fileUrl);
@@ -40,7 +40,7 @@
                     } catch (error) {
                         console.error('Failed to fetch the file:', error);
                     }
-                })();
+                }, 100); // Delay by 100ms (adjust as needed)
             } else {
                 console.error("No file URL provided in the query parameters.");
             }
