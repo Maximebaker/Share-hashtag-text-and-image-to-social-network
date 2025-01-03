@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share File Example</title>
+</head>
+<body>
+    <h1>Share File Example</h1>
+    <button id="shareButton">Share File</button>
+</body>
+  <script>
+    
+      // Check if the browser supports the Web Share API
+        if (navigator.share) {
+            document.getElementById("shareButton").addEventListener("click", async () => {
+                // Get the URL and text from the query parameters
+                const urlParams = new URLSearchParams(window.location.search);
+                const fileUrl = urlParams.get('url');
+                const text = urlParams.get('text');
+
+                if (fileUrl) {
+                    try {
+                        // Fetch the file (image or file)
+                        const response = await fetch(fileUrl);
+                        const blob = await response.blob();
+
+                        // Trigger the Web Share API to share the file
+                        navigator.share({
+                            title: text || 'Shared File',  // Default title if no text provided
+                            text: text || 'Check out this file!',
+                            files: [new File([blob], 'shared-file', { type: blob.type })], // Create a File object from the Blob
+                        }).then(() => {
+                            console.log("File shared successfully");
+                        }).catch((error) => {
+                            console.error("Error sharing file:", error);
+                        });
+                    } catch (error) {
+                        console.error('Failed to fetch the file:', error);
+                    }
+                } else {
+                    console.error("No file URL provided in the query parameters.");
+                }
+            });
+        } else {
+            // If Web Share API is not supported, provide fallback or message
+            console.log("Web Share API is not supported in this browser.");
+        }
+  </script>
+</html>
