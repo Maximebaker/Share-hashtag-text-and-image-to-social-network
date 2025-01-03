@@ -3,7 +3,7 @@
     <script>
         // Check if the browser supports the Web Share API
         if (navigator.share) {
-            document.getElementById("shareButton").addEventListener("click", async () => {
+            document.getElementByClassName("shareButton")[0].addEventListener("click", async () => {
                 // Get the URL and text from the query parameters
                 const urlParams = new URLSearchParams(window.location.search);
                 const fileUrl = urlParams.get('url');
