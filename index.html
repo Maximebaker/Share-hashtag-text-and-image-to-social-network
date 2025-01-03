@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Share File Example</title>
-</head>
-<body>
-    <h1>Share File Example</h1>
-    <button id="shareButton">Share File</button>
+<button id="shareButton">Share File</button>
 
     <script>
         // Check if the browser supports the Web Share API
@@ -26,12 +17,18 @@
                         // Fetch the file (image or file)
                         const response = await fetch(fileUrl);
                         const blob = await response.blob();
+console.log(blob.type)
 
+  const fileType = blob.type.split('/')[1]; // Splits 'image/png' into 'png'
+
+                        // Use a default name with the proper extension
+                        const fileName = `shared-file.${fileType}`;
+                        
                         // Trigger the Web Share API to share the file
                         navigator.share({
                             title: text || 'Shared File',  // Default title if no text provided
                             text: text || 'Check out this file!',
-                            files: [new File([blob], 'shared-file', { type: blob.type })], // Create a File object from the Blob
+                            files: [new File([blob], fileName, { type: blob.type })], // Create a File object from the Blob
                         }).then(() => {
                             console.log("File shared successfully");
                         }).catch((error) => {
@@ -49,5 +46,3 @@
             console.log("Web Share API is not supported in this browser.");
         }
     </script>
-</body>
-</html>
