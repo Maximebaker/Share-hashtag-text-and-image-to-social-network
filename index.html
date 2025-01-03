@@ -7,21 +7,21 @@
 </head>
 <body>
     <h1>Share File Example</h1>
+    <button id="shareButton">Share File</button>
 
     <script>
         // Check if the browser supports the Web Share API
         if (navigator.share) {
-            // Get the URL and text from the query parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            const fileUrl = urlParams.get('url');
-            const text = urlParams.get('text');
+            document.getElementById("shareButton").addEventListener("click", async () => {
+                // Get the URL and text from the query parameters
+                const urlParams = new URLSearchParams(window.location.search);
+                const fileUrl = urlParams.get('url');
+                const text = urlParams.get('text');
 
-            console.log('File URL:', fileUrl);  // Debugging line to ensure 'url' is being fetched
-            console.log('Text:', text);          // Debugging line to ensure 'text' is being fetched
+                console.log('File URL:', fileUrl);  // Debugging line to ensure 'url' is being fetched
+                console.log('Text:', text);          // Debugging line to ensure 'text' is being fetched
 
-            if (fileUrl) {
-                // Try sharing the file as soon as the page loads
-                 setTimeout(async () => {
+                if (fileUrl) {
                     try {
                         // Fetch the file (image or file)
                         const response = await fetch(fileUrl);
@@ -40,10 +40,10 @@
                     } catch (error) {
                         console.error('Failed to fetch the file:', error);
                     }
-                }, 100); // Delay by 100ms (adjust as needed)
-            } else {
-                console.error("No file URL provided in the query parameters.");
-            }
+                } else {
+                    console.error("No file URL provided in the query parameters.");
+                }
+            });
         } else {
             // If Web Share API is not supported, provide fallback or message
             console.log("Web Share API is not supported in this browser.");
